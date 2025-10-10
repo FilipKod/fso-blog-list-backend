@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "node --test"
   },
   "author": "Filip Madunicky",
   "license": "MIT",

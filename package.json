@@ -11,10 +11,11 @@
   },
   "author": "Filip Madunicky",
   "license": "MIT",
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "pnpm@10.18.2",
   "dependencies": {
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "lodash": "^4.17.21",
     "mongoose": "^8.19.1"
   }
 }

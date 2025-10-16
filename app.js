@@ -12,4 +12,4 @@ app.use(express.json())
 
 app.use('/api/blogs', blogRouter)
 
-module.exports = app;
+module.exports = app

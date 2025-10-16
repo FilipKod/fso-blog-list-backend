@@ -1,12 +1,12 @@
-const blog = require("../models/blog");
+const blog = require('../models/blog')
 const lodash = require('lodash')
 
-const dummy = (blogs) => {
-  return 1;
+const dummy = () => {
+  return 1
 }
 
 const totalLikes = (blogs) => {
-  const likesCount = blogs.reduce((acumulator, post) => acumulator + post.likes, 0);
+  const likesCount = blogs.reduce((acumulator, post) => acumulator + post.likes, 0)
   return likesCount
 }
 

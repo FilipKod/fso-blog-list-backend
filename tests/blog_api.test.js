@@ -26,7 +26,7 @@ test('all posts are returned', async () => {
   assert.strictEqual(response.body.length, helper.initalPosts.length)
 })
 
-test.only('blog posts identifier is returned as "id" not "_id"', async () => {
+test('blog posts identifier is returned as "id" not "_id"', async () => {
   const response = await api.get('/api/blogs')
 
   const firstPost = response.body[0]
@@ -36,6 +36,26 @@ test.only('blog posts identifier is returned as "id" not "_id"', async () => {
   assert.strictEqual(Object.hasOwn(firstPost, '_id'), false)
 
   assert.strictEqual(typeof firstPost.id, 'string')
+})
+
+test.only('new valid blog post was added with correct content', async () => {
+  const newPost = {
+    title: 'testing title',
+    author: 'testing author',
+    url: 'testing-url',
+    likes: 111,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newPost)
+    .expect(201)
+
+  const notesAtEnd = await helper.postsInDb()
+  assert.strictEqual(notesAtEnd.length, helper.initalPosts.length + 1)
+
+  const contents = notesAtEnd.map(p => p.title)
+  assert(contents.includes(newPost.title))
 })
 
 after(async () => {

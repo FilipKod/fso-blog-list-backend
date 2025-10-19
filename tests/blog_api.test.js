@@ -38,7 +38,7 @@ test('blog posts identifier is returned as "id" not "_id"', async () => {
   assert.strictEqual(typeof firstPost.id, 'string')
 })
 
-test.only('new valid blog post was added with correct content', async () => {
+test('new valid blog post was added with correct content', async () => {
   const newPost = {
     title: 'testing title',
     author: 'testing author',
@@ -51,11 +51,43 @@ test.only('new valid blog post was added with correct content', async () => {
     .send(newPost)
     .expect(201)
 
-  const notesAtEnd = await helper.postsInDb()
-  assert.strictEqual(notesAtEnd.length, helper.initalPosts.length + 1)
+  const postsAtEnd = await helper.postsInDb()
+  assert.strictEqual(postsAtEnd.length, helper.initalPosts.length + 1)
 
-  const contents = notesAtEnd.map(p => p.title)
+  const contents = postsAtEnd.map(p => p.title)
   assert(contents.includes(newPost.title))
+})
+
+test('new blog post was added with default property "likes" value', async () => {
+  const likesMissingPost = {
+    title: 'test title',
+    author: 'test author',
+    url: 'test-url'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(likesMissingPost)
+    .expect(201)
+
+  const postsAtEnd = await helper.postsInDb()
+  assert.strictEqual(postsAtEnd.length, helper.initalPosts.length + 1)
+  assert.strictEqual(postsAtEnd[postsAtEnd.length - 1].likes, 0)
+})
+
+test.only('new blog post without title return status 400', async () => {
+  const titleMissingPost = {
+    author: 'test author',
+    url: 'test-url'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(titleMissingPost)
+    .expect(400)
+
+  const postsAtEnd = await helper.postsInDb()
+  assert.strictEqual(postsAtEnd.length, helper.initalPosts.length)
 })
 
 after(async () => {

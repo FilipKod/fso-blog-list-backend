@@ -75,7 +75,7 @@ test('new blog post was added with default property "likes" value', async () => 
   assert.strictEqual(postsAtEnd[postsAtEnd.length - 1].likes, 0)
 })
 
-test.only('new blog post without title return status 400', async () => {
+test('new blog post without title return status 400', async () => {
   const titleMissingPost = {
     author: 'test author',
     url: 'test-url'
@@ -88,6 +88,19 @@ test.only('new blog post without title return status 400', async () => {
 
   const postsAtEnd = await helper.postsInDb()
   assert.strictEqual(postsAtEnd.length, helper.initalPosts.length)
+})
+
+test.only('deleting blog post with status code 204', async () => {
+  const postsAtStart = await helper.postsInDb()
+  const postToDelete = postsAtStart[0]
+
+  await api.delete(`/api/blogs/${postToDelete.id}`).expect(204)
+
+  const postsAtEnd = await helper.postsInDb()
+  assert.strictEqual(postsAtEnd.length, helper.initalPosts.length - 1)
+
+  const contents = postsAtEnd.map(p => p.title)
+  assert(!contents.includes(postToDelete.title))
 })
 
 after(async () => {

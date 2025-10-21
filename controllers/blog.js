@@ -1,10 +1,11 @@
 const blogRouter = require('express').Router()
+/** @type {import('mongoose').Model} */
 const Blog = require('../models/blog')
 
 blogRouter.get('/', async (request, response) => {
   const posts = await Blog.find({})
 
-  return response.status(200).json(posts)
+  response.status(200).json(posts)
 })
 
 blogRouter.post('/', async (request, response) => {
@@ -26,6 +27,14 @@ blogRouter.post('/', async (request, response) => {
   const newBlog = await blog.save()
 
   response.status(201).json(newBlog)
+})
+
+blogRouter.delete('/:id', async (request, response) => {
+  const id = request.params.id
+
+  await Blog.findByIdAndDelete(id)
+
+  response.status(204).end()
 })
 
 module.exports = blogRouter

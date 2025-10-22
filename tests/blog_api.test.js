@@ -90,7 +90,7 @@ test('new blog post without title return status 400', async () => {
   assert.strictEqual(postsAtEnd.length, helper.initalPosts.length)
 })
 
-test.only('deleting blog post with status code 204', async () => {
+test('deleting blog post with status code 204', async () => {
   const postsAtStart = await helper.postsInDb()
   const postToDelete = postsAtStart[0]
 
@@ -101,6 +101,33 @@ test.only('deleting blog post with status code 204', async () => {
 
   const contents = postsAtEnd.map(p => p.title)
   assert(!contents.includes(postToDelete.title))
+})
+
+/**
+ * TODO: finish this test and update controller
+ */
+test.only('update number of likes in blog post', async () => {
+  const postsAtStart = await helper.postsInDb()
+  const postToUpdate = postsAtStart[0]
+
+  const updatedData = {
+    ...postToUpdate,
+    likes: 12
+  }
+
+  await api
+    .put(`/api/blogs/${postToUpdate.id}`)
+    .send(updatedData)
+    .expect(200)
+    .expect('Content-type', /application\/json/)
+
+  const postsAtEnd = await helper.postsInDb()
+
+  // length of posts doesn't change
+  assert.strictEqual(postsAtEnd.length, helper.initalPosts.length)
+
+  // first post changed based on test
+  assert.strictEqual(postsAtEnd[0].likes, updatedData.likes)
 })
 
 after(async () => {

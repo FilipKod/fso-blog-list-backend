@@ -1,4 +1,5 @@
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const initalPosts = [
   {
@@ -21,7 +22,25 @@ const initalPosts = [
   }
 ]
 
-const nonExistingId = async () => {
+const initalUsers = [
+  {
+    username: 'fipotest',
+    name: 'flipo testovic',
+    password: 'ipo123'
+  },
+  {
+    username: 'placko',
+    name: 'ipor mapovic',
+    password: 'mapotapo'
+  },
+  {
+    username: 'zdech',
+    name: 'zdeno chodek',
+    password: 'izd2016'
+  },
+]
+
+const nonExistingBlogId = async () => {
   const post = new Blog({
     title: 'willremovesoon',
     author: 'willremovesoon',
@@ -34,13 +53,33 @@ const nonExistingId = async () => {
   return post._id.toString()
 }
 
+const nonExistingUserId = async () => {
+  const user = new User({
+    username: 'willremovesoon',
+    name: 'willremovesoon',
+    password: 'willremovesoon'
+  })
+  await user.save()
+  await user.deteleOne()
+
+  return user._id.toString()
+}
+
 const postsInDb = async () => {
   const posts = await Blog.find({})
   return posts.map(post => post.toJSON())
 }
 
+const usersInDb = async () => {
+  const users = await User.find({})
+  return users.map(user => user.toJSON())
+}
+
 module.exports = {
   initalPosts,
-  nonExistingId,
-  postsInDb
+  nonExistingBlogId,
+  postsInDb,
+  initalUsers,
+  nonExistingUserId,
+  usersInDb
 }

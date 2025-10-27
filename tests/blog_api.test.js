@@ -106,7 +106,7 @@ test('deleting blog post with status code 204', async () => {
 /**
  * TODO: finish this test and update controller
  */
-test.only('update number of likes in blog post', async () => {
+test('update number of likes in blog post', async () => {
   const postsAtStart = await helper.postsInDb()
   const postToUpdate = postsAtStart[0]
 

@@ -7,8 +7,8 @@ const userSchema = mongoose.Schema({
   username: {
     type: String,
     required: [true, 'username is required'],
-    minLength: 3,
-    unique: [true, 'username must be unique']
+    minLength: [3, 'Username must contains at least 3 characters.'],
+    unique: true
   },
   name: String,
   passwordHash: {
@@ -22,6 +22,7 @@ userSchema.set('toJSON', {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject.__v
     delete returnedObject._id
+    delete returnedObject.passwordHash
   }
 })
 

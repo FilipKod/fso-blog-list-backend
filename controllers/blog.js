@@ -46,9 +46,26 @@ blogRouter.post('/', async (request, response) => {
 blogRouter.delete('/:id', async (request, response) => {
   const id = request.params.id
 
-  await Blog.findByIdAndDelete(id)
+  const decodedToken = jwt.verify(request.token, process.env.JWT_SECRET)
 
-  response.status(204).end()
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'invalid token' })
+  }
+
+  const user = await User.findById(decodedToken.id)
+
+  if (!user) {
+    return response.status(401).json({ error: 'UserId missing or not valid' })
+  }
+
+  const blog = await Blog.findById(id)
+
+  if (blog.author.toString() === decodedToken.id.toString()) {
+    await Blog.findByIdAndDelete(id)
+    response.status(204).end()
+  } else {
+    response.status(403).json({ error: 'permission denied: user is not the author' })
+  }
 })
 
 blogRouter.put('/:id', async (request, response) => {

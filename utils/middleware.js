@@ -9,6 +9,8 @@ const errorHandler = (error, request, response, next) => {
     error.name === 'MongoServerError' &&
     error.message.includes('E11000 duplicate key error collection')) {
     return response.status(409).json({ error: 'username must be unique' })
+  } else if (error.name === 'TokenExpiredError') {
+    return response.status(401).json({ error: 'token expired' })
   }
 
   next()

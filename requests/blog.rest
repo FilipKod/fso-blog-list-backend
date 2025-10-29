@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImthY2VyIiwiaWQiOiI2OTAyMjg2MWQ2MzIxMjlkMDVhZGQ5ODIiLCJpYXQiOjE3NjE3NTc5MDQsImV4cCI6MTc2MTc2MTUwNH0._EX9NBgK9qyu2Ct_G6XZchFgieONDWMqLbaiKUcraCI
 
 {
-  "title": "Robo je babrak",
-  "author": "69022861d632129d05add982",
-  "url": "robo-je-babrak",
-  "likes": 8451
+  "title": "refoctored token",
+  "url": "refactored-token",
+  "likes": 2
 }

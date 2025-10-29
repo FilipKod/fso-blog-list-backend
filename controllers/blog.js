@@ -1,4 +1,5 @@
 const blogRouter = require('express').Router()
+const jwt = require('jsonwebtoken')
 /** @type {import('mongoose').Model} */
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -15,13 +16,17 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response) => {
   const body = request.body
 
-  if (!body.title) {
-    response.status(400).json({
-      error: 'title missing'
-    })
+  const decodedToken = jwt.verify(request.token, process.env.JWT_SECRET)
+
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'invalid token' })
   }
 
-  const user = await User.findById(body.author)
+  const user = await User.findById(decodedToken.id)
+
+  if (!user) {
+    return response.status(401).json({ error: 'UserId missing or not valid' })
+  }
 
   const blog = new Blog({
     title: body.title,

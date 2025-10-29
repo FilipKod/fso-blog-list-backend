@@ -1,9 +1,13 @@
 const blogRouter = require('express').Router()
 /** @type {import('mongoose').Model} */
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogRouter.get('/', async (request, response) => {
-  const posts = await Blog.find({})
+  const posts = await Blog.find({}).populate('author', {
+    username: 1,
+    name: 1
+  })
 
   response.status(200).json(posts)
 })
@@ -17,16 +21,21 @@ blogRouter.post('/', async (request, response) => {
     })
   }
 
+  const user = await User.findById(body.author)
+
   const blog = new Blog({
     title: body.title,
-    author: body.author,
+    author: user._id,
     url: body.url,
     likes: body.likes || 0
   })
 
-  const newBlog = await blog.save()
+  const savedBlog = await blog.save()
 
-  response.status(201).json(newBlog)
+  user.blogs = user.blogs.concat(savedBlog._id)
+  await user.save()
+
+  response.status(201).json(savedBlog)
 })
 
 blogRouter.delete('/:id', async (request, response) => {

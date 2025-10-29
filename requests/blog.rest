@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Robo je babrak",
+  "author": "69022861d632129d05add982",
+  "url": "robo-je-babrak",
+  "likes": 8451
+}

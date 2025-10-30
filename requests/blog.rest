@@ -1,14 +1,14 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImthY2VyIiwiaWQiOiI2OTAyMjg2MWQ2MzIxMjlkMDVhZGQ5ODIiLCJpYXQiOjE3NjE3NTc5MDQsImV4cCI6MTc2MTc2MTUwNH0._EX9NBgK9qyu2Ct_G6XZchFgieONDWMqLbaiKUcraCI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImthY2VyIiwiaWQiOiI2OTAyMjg2MWQ2MzIxMjlkMDVhZGQ5ODIiLCJpYXQiOjE3NjE4NDAzNDgsImV4cCI6MTc2MTg0Mzk0OH0.37vJi-zoH8aaCuFQbvzYi803-zkYIlFKmt8YxO2j20E
 
 {
-  "title": "refoctored token",
-  "url": "refactored-token",
-  "likes": 2
+  "title": "clanok 3",
+  "url": "clanok-3",
+  "likes": 0
 }
 
 ###
 DELETE http://localhost:3003/api/blogs/690227b9d632129d05add97e
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImthY2VyIiwiaWQiOiI2OTAyMjg2MWQ2MzIxMjlkMDVhZGQ5ODIiLCJpYXQiOjE3NjE3NjI3MDcsImV4cCI6MTc2MTc2NjMwN30.qozZRBKqJ392qHJcJfPXC1plU7h7WzEpFWLsRXzDtn8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImthY2VyIiwiaWQiOiI2OTAyMjg2MWQ2MzIxMjlkMDVhZGQ5ODIiLCJpYXQiOjE3NjE4NDQyMTcsImV4cCI6MTc2MTg0NzgxN30.SLJkO90h9ArCefIjKdq6NGEbZXkUZlkCIqAaDeBC4mY

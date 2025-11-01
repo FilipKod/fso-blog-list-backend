@@ -9,10 +9,26 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).json({ error: error.message })
   } else if (
     error.name === 'MongoServerError' &&
-    error.message.includes('E11000 duplicate key error collection')) {
+    error.message.includes('E11000 duplicate key error collection')
+  ) {
     return response.status(409).json({ error: 'username must be unique' })
   } else if (error.name === 'TokenExpiredError') {
     return response.status(401).json({ error: 'token expired' })
+  } else if (
+    error.name === 'JsonWebTokenError' &&
+    error.message.includes('jwt malformed')
+  ) {
+    return response.status(401).json({ error: 'token malformatted' })
+  } else if (
+    error.name === 'JsonWebTokenError' &&
+    error.message.includes('invalid token')
+  ) {
+    return response.status(401).json({ error: 'token invalid' })
+  } else if (
+    error.name === 'JsonWebTokenError' &&
+    error.message.includes('jwt must be provided')
+  ) {
+    return response.status(401).json({ error: 'token missing' })
   }
 
   next()
@@ -22,6 +38,8 @@ const tokenExtractor = (request, response, next) => {
   const authorization = request.get('authorization')
   if (authorization && authorization.startsWith('Bearer ')) {
     request.token = authorization.replace('Bearer ', '')
+  } else {
+    request.token = null
   }
 
   next()

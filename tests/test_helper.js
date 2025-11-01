@@ -1,22 +1,20 @@
+const bcrypt = require('bcrypt')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
 const initalPosts = [
   {
     title: 'Nas prvy prispevok',
-    author: 'Filip Madunicky',
     url: 'nas-prvy-prispevok',
     likes: 3,
   },
   {
     title: 'I enjoy programming',
-    author: 'madisek',
     url: 'i-enjoy-programming',
     likes: 22,
   },
   {
     title: 'som unaveny z prace',
-    author: 'filipek',
     url: 'som-unaveny-z-prace',
     likes: 145,
   }
@@ -75,11 +73,22 @@ const usersInDb = async () => {
   return users.map(user => user.toJSON())
 }
 
+const hassUsersPass = async () => {
+  return Promise.all(initalUsers.map(async (user) => {
+    return {
+      username: user.username,
+      name: user.name,
+      passwordHash: await bcrypt.hash(user.password, 10)
+    }
+  }))
+}
+
 module.exports = {
   initalPosts,
   nonExistingBlogId,
   postsInDb,
   initalUsers,
   nonExistingUserId,
-  usersInDb
+  usersInDb,
+  hassUsersPass
 }

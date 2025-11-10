@@ -47,24 +47,21 @@ blogRouter.delete('/:id', requestAuth, async (request, response) => {
   }
 })
 
-blogRouter.put('/:id', requestAuth, async (request, response) => {
+blogRouter.put('/:id', async (request, response) => {
   const body = request.body
-  const user = request.user
 
   const blog = await Blog.findById(request.params.id)
 
   if (!blog) response.status(404).end()
 
-  if (blog.author.toString() !== user._id.toString()) {
-    return response.status(401).json({ error: 'permission denied: user is not the author' })
-  }
-
-  blog.author = user._id
+  blog.author = body.author.id
   blog.title = body.title
   blog.url = body.url
   blog.likes = body.likes
 
   const updatedPost = await blog.save()
+
+  await updatedPost.populate('author', 'name username')
 
   response.status(200).json(updatedPost)
 })

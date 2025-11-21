@@ -33,11 +33,18 @@ blogRouter.post('/', requestAuth, async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
-blogRouter.delete('/:id', async (request, response) => {
+blogRouter.delete('/:id', requestAuth, async (request, response) => {
   const id = request.params.id
+  const user = request.user
 
-  await Blog.findByIdAndDelete(id)
-  response.status(204).end()
+  const blog = await Blog.findById(id)
+
+  if (user._id.toString() === blog.author.toString()) {
+    await blog.deleteOne()
+    response.status(204).end()
+  } else {
+    response.status(401).json({ error: 'invalid permission' })
+  }
 })
 
 blogRouter.put('/:id', async (request, response) => {

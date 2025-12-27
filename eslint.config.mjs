@@ -1,6 +1,8 @@
 import globals from "globals";
 import js from "@eslint/js";
 import stylisticJs from "@stylistic/eslint-plugin-js";
+import eslintConfigPrettier from "eslint-config-prettier/flat";
+import eslintPluginPrettier from "eslint-plugin-prettier/recommended";
 
 export default [
   js.configs.recommended,
@@ -23,10 +25,12 @@ export default [
       "no-trailing-spaces": "error",
       "object-curly-spacing": ["error", "always"],
       "arrow-spacing": ["error", { before: true, after: true }],
-      "no-console": "off"
+      "no-console": "off",
     },
   },
   {
     ignores: ["dist/**", "node_modules/**", "eslint.config.mjs"],
   },
+  eslintConfigPrettier,
+  eslintPluginPrettier,
 ];

@@ -19,6 +19,15 @@ blogSchema.set("toJSON", {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject.__v;
     delete returnedObject._id;
+
+    if (returnedObject.comments) {
+      returnedObject.comments = returnedObject.comments.map((comment) => {
+        comment.id = comment._id.toString();
+        delete comment._id;
+        delete comment.__v;
+        return comment;
+      });
+    }
   },
 });
 

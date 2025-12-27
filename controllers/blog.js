@@ -33,6 +33,38 @@ blogRouter.post("/", requestAuth, async (request, response) => {
   response.status(201).json(savedBlog);
 });
 
+blogRouter.post("/:id/comments", async (request, response, next) => {
+  try {
+    const { id } = request.params;
+    const { message } = request.body;
+
+    if (!message) {
+      return response.status(400).json({ error: "message is required" });
+    }
+
+    const newComment = {
+      message,
+      date: new Date(),
+    };
+
+    const postWithNewComment = await Blog.findByIdAndUpdate(
+      id,
+      {
+        $push: { comments: newComment },
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!postWithNewComment) {
+      return response.status(404).json({ error: "blog post not found" });
+    }
+
+    response.status(201).json(postWithNewComment);
+  } catch (error) {
+    next(error);
+  }
+});
+
 blogRouter.delete("/:id", requestAuth, async (request, response) => {
   const id = request.params.id;
   const user = request.user;
